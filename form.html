@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="et">
+<head>
+	<meta charset="utf-8">
+	<title>Regristratuur</title>
+</head>
+<body>
+	<form action="form.php" method="post" enctype="multipart/form-data">
+		Kasutajanimi: <input type="text" name="uname" required><br>
+		Eesnimi: <input type="text" name="fname" required><br>
+		Perenimi: <input type="text" name="lname" required><br>
+		Vanus: <input value="Täiskasvanu" type="radio" name="vanus" required>Täiskasvanu
+			   <input value="Alaealine" type="radio" name="vanus" required>Alaealine <br>
+		E-mail: <input type="email" name="email" required><br>
+		Telefon: <input type="text" name="usrtel" required><br>
+		Lisa pilt:<br>
+		<input type="file" name="img" accept="image/*" id="img" required><br>
+		<textarea rows="3" name="markused" placeholder="Märkused" required></textarea><br>
+		<input type="submit" value="Salvesta">
+	</form>
+</body>
+</html>
