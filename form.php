@@ -39,6 +39,8 @@
 		umask($vana);
 	}
 
+	$aeg = time();
+	
 	$kasutajainfo = fopen($dir.'/ankeet.json','w');
 	$ankeet[] = array(
 		"id" => $id,
@@ -48,7 +50,8 @@
 		"email" => $email,
 		"vanus" => $vanus,
 		"tel" => $tel,
-		"markused" => $markused); 
+		"markused" => $markused,
+		"aeg" => $aeg);
 
 	move_uploaded_file($file, $dir.'/pilt.jpg');
 	fwrite($kasutajainfo, json_encode($ankeet));
