@@ -6,24 +6,19 @@
 </head>
 <body>
 	<?php
-		$username = $_GET["id"];
-		$path = "./db/$username";
-		$imgPath = "$path/pilt.jpg";
-		$dataPath = "$path/ankeet.json";
-		$json = file_get_contents($dataPath);
-		$userData = json_decode($json, true);
-		$userData = $userData[0];
-		$userData["aeg"] = strftime("%d/%m/%Y %H:%M", $userData["aeg"]);
-		//print_r($userData);
-		print '<img src="' . $imgPath . '" height="100" width="100">'. "<br>";
-		print "Kasutajanimi : ". $userData["uname"]. "<br>";
-		print "Eesnimi : ". $userData["fname"]. "<br>";
-		print "Perekonnanimi : ". $userData["lname"]. "<br>";
-		print "Vanus : ". $userData["vanus"]. "<br>";
-		print "e-mail : ". $userData["email"]. "<br>";
-		print "Telefoninumber : ". $userData["tel"]. "<br>";
-		print "Märkused : ". $userData["markused"]. "<br>";
-		print "Loomisaeg : ". $userData["aeg"];
+		require "db-api.php";
+		$id = $_GET["id"];
+		$kasutajainfo = profiilikuva($id);
+		
+		print '<img src="' . "./db/$id/pilt.jpg" . '" height="100" width="100">'. "<br>";
+		print "Kasutajanimi : ". $kasutajainfo["uname"]. "<br>";
+		print "Eesnimi : ". $kasutajainfo["fname"]. "<br>";
+		print "Perekonnanimi : ". $kasutajainfo["lname"]. "<br>";
+		print "Vanus : ". $kasutajainfo["vanus"]. "<br>";
+		print "e-mail : ". $kasutajainfo["email"]. "<br>";
+		print "Telefoninumber : ". $kasutajainfo["tel"]. "<br>";
+		print "Märkused : ". $kasutajainfo["markused"]. "<br>";
+		print "Loomisaeg : ". $kasutajainfo["aeg"];
 	?>
 </body>
 </html>

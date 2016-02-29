@@ -6,30 +6,25 @@
 </head>
 <body>
 	<?php
+	require "db-api.php";
+	$kasutajad = koonduslaager();
+	
 	$kogutoodang = '<table>';
-	foreach (glob("./db/*",GLOB_ONLYDIR) as $dirPath) {
-	  $imgPath = "$dirPath/pilt.jpg";
-	  $dataPath = "$dirPath/ankeet.json";
-	  $json = file_get_contents($dataPath);
-	  $userData = json_decode($json, true);
-	  $userData = $userData[0];
-		
+	foreach ($kasutajad as $kasutaja) {
 	  $kogutoodang .= '
 		<tr>
-		  <td>' . $userData["id"] . '</td>
+		  <td>' . $kasutaja["id"] . '</td>
 		  <td>
-			<a href="' . $imgPath . '">
-			  <img src="' . $imgPath . '" height="30" width="30">
-			</a>
+			<img src="db/' . $kasutaja["id"] . '/pilt.jpg" height="30" width="30">
 		  </td>
-		  <td>' . $userData["lname"] . '</td>
+		  <td>' . $kasutaja["lname"] . '</td>
 		  <td>
 			<a href="yksikkirje.php?id=' . 
-			$userData["id"] . '">Vaade</a>
+			$kasutaja["id"] . '">Vaade</a>
 			<a href="muuda.php?id=' . 
-			$userData["id"] . '">Muuda</a>
+			$kasutaja["id"] . '">Muuda</a>
 			<a href="kustuta.php?id=' . 
-			$userData["id"] . '">Kustuta</a>
+			$kasutaja["id"] . '">Kustuta</a>
 		  </td>
 		</tr>';
 	}
