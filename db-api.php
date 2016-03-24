@@ -1,3 +1,4 @@
+
 <?php
 	date_default_timezone_set('Europe/Tallinn');
 	
@@ -29,16 +30,13 @@
 		else {
 			$id = 0;
 		}
-
 		$kaust = 'db/'.$id;
 		if ( !file_exists($kaust) ){
 			$vana = umask(0);
 			mkdir ($kaust, 0777, true);
 			umask($vana);
 		}
-
 		$aeg = time();
-
 		$kasutajainfo = fopen($kaust.'/ankeet.json','w');
 		$ankeet[] = array(
 		"id" => $id,
@@ -50,7 +48,6 @@
 		"tel" => $tel,
 		"markused" => $markused,
 		"aeg" => $aeg);
-
 		move_uploaded_file($file, $kaust.'/pilt.jpg');
 		fwrite($kasutajainfo, json_encode($ankeet));
 		fclose($kasutajainfo);
@@ -67,9 +64,7 @@
 		$markused = $kasutajainfo["markused"];
 		$aeg = strtotime(str_replace('/', '-', $kasutajainfo["aeg"]));
 		$file = $kasutajainfo["pilt"];
-
 		$kodurada = "./db/$id";
-
 		$kasutajainfo = fopen($kodurada.'/ankeet.json','w');
 		$ankeet[] = array(
 			"id" => $id,
@@ -81,7 +76,6 @@
 			"tel" => $tel,
 			"markused" => $markused,
 			"aeg" => $aeg);
-
 		move_uploaded_file($file, $kodurada.'/pilt.jpg');
 		fwrite($kasutajainfo, json_encode($ankeet));
 		fclose($kasutajainfo);
