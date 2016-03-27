@@ -1,11 +1,65 @@
-
 <?php
-	date_default_timezone_set('Europe/Tallinn');
-	
-	ini_set('display_errors',1);
-	error_reporting(E_ALL); 
-	
-	function loomine($kasutajainfo) {
+date_default_timezone_set("Europe/Tallinn");
+function salvesta_API($item) {
+	$ans1 = $item["ans1"];
+	$ans2 = $item["ans2"];
+	$ans3 = $item["ans3"];
+	$ans4 = $item["ans4"];
+	$ans5 = $item["ans5"];
+	$id = file_get_contents("id.txt");
+	$aeg = strftime("%d.%m.%Y %X");
+	$data = json_decode(file_get_contents("andmed.json"), true);
+	$data[] = array(
+		"id" => $id,
+		"ans1" => $ans1,
+		"ans2" => $ans2,
+		"ans3" => $ans3,
+		"ans4" => $ans4,
+		"ans5" => $ans5,
+		"aeg" => $aeg,);
+	file_put_contents("andmed.json", json_encode($data, JSON_PRETTY_PRINT));
+	$id = $id+1;
+	file_put_contents("id.txt", $id);
+	return true;
+}
+function vaata_API($key) {
+	$item = json_decode(file_get_contents("andmed.json"), true);
+	$item = $item[$key];    
+	return $item; 
+}
+function muuda_API($item) {
+	$id = $item["id"];
+	$ans1 = $item["ans1"];
+	$ans2 = $item["ans2"];
+	$ans3 = $item["ans3"];
+	$ans4 = $item["ans4"];
+	$ans5 = $item["ans5"];
+	$id = intval($id);
+	$aeg = strftime("%d.%m.%Y %X");
+	$data = json_decode(file_get_contents("andmed.json"), true);
+	$data[$id] = array(
+		"id" => $id,
+		"ans1" => $ans1,
+		"ans2" => $ans2,
+		"ans3" => $ans3,
+		"ans4" => $ans4,
+		"ans5" => $ans5,
+		"aeg" => $aeg,);
+	file_put_contents("andmed.json", json_encode($data, JSON_PRETTY_PRINT));
+	return true;
+}
+function kustuta_API($id) {
+	$item = json_decode(file_get_contents("andmed.json"), true);
+	$id = $id["id"];
+	$item[$id] = [];
+	file_put_contents("andmed.json", json_encode($item, JSON_PRETTY_PRINT));
+	return true;
+}
+function list_API() {
+	$items = json_decode(file_get_contents("andmed.json"), true);
+	return $items;	
+}
+function loomine($kasutajainfo) {
 		$username = $kasutajainfo["uname"];
 		$fname = $kasutajainfo["fname"];
 		$lname = $kasutajainfo["lname"];
@@ -53,7 +107,7 @@
 		fclose($kasutajainfo);
 	}
 	
-	function muutmine($kasutajainfo) {
+function muutmine($kasutajainfo) {
 		$id = $kasutajainfo["id"];
 		$username = $kasutajainfo["uname"];
 		$fname = $kasutajainfo["fname"];
@@ -81,7 +135,7 @@
 		fclose($kasutajainfo);
 	}
     
-  function profiilikuva($id) {
+ function profiilikuva($id) {
     $dataPath = "./db/$id/ankeet.json";
     $json = file_get_contents($dataPath);
     $kasutajainfo = json_decode($json, true);
@@ -90,7 +144,7 @@
     return $kasutajainfo;
   }
   
-  function koonduslaager() {
+ function koonduslaager() {
     $kasutajad = [];
     $i = 0;
     
@@ -101,7 +155,7 @@
     }
     return $kasutajad;
   }
-  function kustuta($id) {
+ function kustuta($id) {
     $kodurada = "./db/$id";
     if (is_dir($kodurada)) {
       $files = glob($kodurada . "/*");
